@@ -146,8 +146,7 @@ LEFT JOIN tax_change_teachers ON (teachers.id=tax_change_teachers.teacher_id AND
 if(!empty($_GET['term'])){
 	$term = $_GET['term'];
 	// Шаблон рег. выражения
-	$query = "SELECT DISTINCT pupil.FIO, pupil.id FROM pupil INNER JOIN schedule ON pupil.id=schedule.pupil_id 
-WHERE pupil.FIO LIKE '%$term%' ORDER BY pupil.id";
+	$query = "SELECT DISTINCT pupil.FIO, pupil.id FROM pupil WHERE pupil.FIO LIKE '%$term%' ORDER BY pupil.id";
 	$res = db_connect($query);
 	$all_pupil = array();
 	
