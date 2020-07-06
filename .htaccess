@@ -1,0 +1,2 @@
+AddDefaultCharset UTF-8
+errorDocument 404 http://slovenok.ru/404.php
