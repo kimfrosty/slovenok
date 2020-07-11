@@ -56,6 +56,11 @@ if ($_POST['add_one_pupil'] == 'add_one_pupil') {
                 '{$_POST['old_shift']}', '{$_POST['old_branch']}', '{$_POST['id_teacher']}', '1', '{$_COOKIE['name']}')");
 
 }
+//УДаление программы
+if ($_POST['del_prog'] == 'del_prog') {
+    $id_item = $_POST['id_item'];
+    $res_del_prog = mysqli_query($dbc, "DELETE FROM graph WHERE id='" . $id_item . "'");
+}
 //Конец добавления ученика
 
 //Добавление одного урока старому ученику

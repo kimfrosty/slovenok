@@ -95,6 +95,11 @@ if($_COOKIE['user_group']==1){ ?>
 <ul>
     <li><a href="#tabs-1">Перенос Расписания</a></li>
     <li><a href="#tabs-2">Добавление ученика</a></li>
+	<?
+		if ($_COOKIE['id_teacher']=="999"){
+	?>
+	<li><a href="#tabs-3">Удаление программы</a></li>
+	<?php } ?>
 </ul>
 <div id="tabs-1">
     <div id="change_programm">
@@ -127,6 +132,19 @@ if($_COOKIE['user_group']==1){ ?>
         </form>
     </div>
 </div>
+<?
+	if ($_COOKIE['id_teacher']=="999"){
+?>
+<div id="tabs-3">
+    <div id="del_programm">
+        <form id="del_prog">
+            <input type="hidden" name="del_prog" value="del_prog">
+            <div id="jq_data_del_prog"></div>
+            <input type="submit" name="del_prog" id="but_del_prog" value="Удалить">
+        </form>
+    </div>
+</div>
+<?php } ?>
 </div>
 <div id="dialog_add_programm" title="Добавить программу"></div>
 <?php } ?>
@@ -171,8 +189,8 @@ if($_COOKIE['user_group']==1){ ?>
     $('.yes_programm').click(function (e) {
         e.preventDefault();
 
-        $('#jq_data,#jq_data_add_pupil').html('');
-        $('#jq_data').append('<input type="hidden" name="id_item" value="'+$(this).attr('id_item')+'">');
+        $('#jq_data, #jq_data_add_pupil, #jq_data_del_prog').html('');
+        $('#jq_data, #jq_data_del_prog').append('<input type="hidden" name="id_item" value="'+$(this).attr('id_item')+'">');
         $('#jq_data, #jq_data_add_pupil').append('<input type="hidden" name="id_teacher" value="'+$(this).attr('id_teacher')+'">');
         $('#jq_data, #jq_data_add_pupil').append('<input type="hidden" name="old_branch" value="'+$(this).attr('branch')+'">');
         $('#jq_data, #jq_data_add_pupil').append('<input type="hidden" name="old_day" value="'+$(this).attr('day')+'">');
@@ -253,6 +271,14 @@ if($_COOKIE['user_group']==1){ ?>
             evt.preventDefault();
             var data_pupil = $('#add_pupil').serializeArray();
             $.post('scripts/add_data.php', data_pupil, function (json) {}, "json");
+            location.reload();
+            
+        })
+		//Кнопка удаления программы
+        $('#but_del_prog').click(function (evt) {
+            evt.preventDefault();
+            var data = $('#del_prog').serializeArray();
+			$.post('scripts/add_data.php', data, function (json) {}, "json");
             location.reload();
             
         })
