@@ -143,12 +143,20 @@ if($p=='next'){
 		$check_holiday = db_connect("SELECT * FROM holiday WHERE from_date<='".$row_date['date']."' AND to_date>='".$row_date['date']."'");
 		if(mysqli_num_rows($check_holiday)>0) continue;
 		/*========================================================*/
+		
+		$test_lesson = CheckTestLessonAllBranch($row_date['date'], $row_t['id']);
+		while ($row_tl = mysqli_fetch_assoc($test_lesson)){
+			$oplata+=$row_tl['tarif_teacher'];
+			$count_hour++;
+		}
 		$res_shifts = db_connect("SELECT * FROM shifts");
 		while($row_s = mysqli_fetch_assoc($res_shifts)){
 		$count_pupil = 0;
 		$arr_pupil_date = [];
 		$arr_pupil_date = getDataAllBranch($row_date['date'], $row_s['id']);
+		
 		/////////////////////////////////////////////////////////////////
+		
 
 			for($i=0; $i<count($arr_pupil_date); $i++){
 				if($arr_pupil_date[$i]['code_change']!=6&&$arr_pupil_date[$i]['code_change']!=2&&$arr_pupil_date[$i]['code_change']!=5&&$arr_pupil_date[$i]['code_change']!=4){

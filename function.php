@@ -406,10 +406,37 @@ function PupilDataNow($pupil_id, $code_change, $sort, $from_date){
 	}
 	return $array;
 }
+function CheckTestLesson($date, $branch, $day, $shift){
+	$res_test_lesson = db_connect("SELECT *, teachers.name_teacher FROM test_lessons 
+									INNER JOIN teachers ON test_lessons.id_teacher=teachers.id
+									WHERE date='".$date."' 
+																		AND id_branch='".$branch."'
+																		AND id_day='".$day."'
+																		AND id_shift='".$shift."'");
+	$resault = $res_test_lesson;
+	return $resault;
+	}
+	
+function CheckTestLessonAllBranch($date, $teacher){
+	$res_test_lesson = db_connect("SELECT * FROM test_lessons 
+									INNER JOIN programms ON test_lessons.programm=programms.id
+									WHERE date='".$date."'
+									AND id_teacher='".$teacher."'");
+	$resault = $res_test_lesson;
+	return $resault;
+	}
 
-
-
-
+function CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher){
+	$res_test_lesson = db_connect("SELECT *, teachers.name_teacher FROM test_lessons 
+									INNER JOIN teachers ON test_lessons.id_teacher=teachers.id
+									WHERE date='".$date."' 
+																		AND id_branch='".$branch."'
+																		AND id_day='".$day."'
+																		AND id_shift='".$shift."'
+																		AND id_teacher='".$teacher."'");
+	$resault = $res_test_lesson;
+	return $resault;
+	}
 
 //Функция возврата часов учителей в месяц
 /*echo '<pre>';

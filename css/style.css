@@ -535,7 +535,11 @@ td .present {
 .input-mini {
 	width: 235px;
 }
-
+.test_lesson {
+	font-weight:bold;
+	background-color:#005E1F !important;
+	color:#FCFF9F;	
+}
 
 
 

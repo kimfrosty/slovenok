@@ -42,8 +42,9 @@ while ($row_a_b = mysqli_fetch_assoc($res_a_b)) {
 										AND schedule.id_branch='$branch' 
 										AND (schedule.code_change='1' OR schedule.code_change='3' OR schedule.code_change='2' OR schedule.code_change='4') 
 										ORDER BY schedule.code_change DESC LIMIT 1");
+			$test_lesson = CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher);
 			$row_all = mysqli_fetch_assoc($res_all);
-			if ($row_all['code_change'] == 1 || $row_all['code_change'] == 3) {
+			if ($row_all['code_change'] == 1 || $row_all['code_change'] == 3 || mysqli_num_rows($test_lesson)>0) {
                     	echo '<td style="width: 20px; height: 10px; background-color: red"></td>'; $hours++;
                 	} elseif ($row_all['code_change'] == 4){
                 echo '<td style="width: 20px; height: 10px; background-color: grey"></td>';

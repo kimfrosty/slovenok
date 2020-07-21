@@ -152,6 +152,7 @@ for($i=0; $i<count($week_arr); $i++){
 			$prev_from_date = date('Y-m-d', $temp_prev_date->getTimestamp()-86400);
 			$arr_pupil = getDataPupil($row_d['date'], $row_s['id']);
 			$count_pupil = 1;
+			
 			for($j=0; $j<count($arr_pupil); $j++){
 				if(empty($arr_pupil[$j])||$arr_pupil[$j]['code_change']==2) continue;
 				/////////
@@ -167,9 +168,10 @@ for($i=0; $i<count($week_arr); $i++){
 				echo '<tr class="legend_graf">';
 				//Получение данных об оплате ученика
 				$res_pay = db_connect("SELECT * FROM payment WHERE pupil_id='".$arr_pupil[$j]['pupil_id']."' AND '".$row_d['date']."'>=from_date AND '".$row_d['date']."'<=to_date AND pay<>discount");
-				if(mysqli_num_rows($res_pay)<=0){echo '<td style="background-color:#ff5ecf;font-weight:bold;">'.$count_pupil;}else{echo '<td>'.$count_pupil;}
+				if(mysqli_num_rows($res_pay)<=0){echo '<td style="background-color:#ff5ecf;font-weight:bold;">'.$count_pupil.'</td>';}else{echo '<td>'.$count_pupil.'</td>';}
 				//////////
 				
+				//////////////////////
 				echo '<td class="pupil-present left_align pre" id="'.$arr_pupil[$j]['id'].'" id_branch="'.$arr_pupil[$j]['id_branch'].'" id_teacher="'.$arr_pupil[$j]['id_teacher'].'" pupil_id="'.$arr_pupil[$j]['pupil_id'].'" id_day="'.$row_d['weekday'].'" id_shift="'.$row_s['id'].'" date="'.$row_d['date'].'" format_date="'.formateDate($row_d['date']).'" data-pupil="'.$tooltip.'">'.$arr_pupil[$j]['FIO'].'</td>';
 				if($arr_pupil[$j]['code_change']==5){
 					echo '<td class="seek" id="'.$arr_pupil[$j]['id'].'" id_branch="'.$arr_pupil[$j]['id_branch'].'"  id_teacher="'.$arr_pupil[$j]['id_teacher'].'" pupil_id="'.$arr_pupil[$j]['pupil_id'].'" id_day="'.$row_d['weekday'].'" id_shift="'.$row_s['id'].'" date="'.$row_d['date'].'">-</td></tr>';
@@ -182,10 +184,19 @@ for($i=0; $i<count($week_arr); $i++){
 					
 			
 			}
-			for($k=$count_pupil; $k<=12; $k++){
-				echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil" date="'.$row_d['date'].'"></td><td></td></tr>';
+			$test_lesson = CheckTestLesson($week_arr[$i],$_SESSION['id_branch'],$week_count,$row_s['id']);
+			$row_tl = mysqli_fetch_assoc($test_lesson);
+			if(mysqli_num_rows($test_lesson)>0){
+				echo '<tr class="legend_graf empty"><td>1</td><td class="pupil test_lesson">Пробный урок</td><td></td></tr>';
+				echo '<tr class="legend_graf empty"><td>2</td><td class="pupil test_lesson">'.$row_tl['name_teacher'].'</td><td></td></tr>';
+					for($k=3; $k<=12; $k++){
+						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil test_lesson" date="'.$row_d['date'].'"></td><td></td></tr>';
+					}
+				}else{
+					for($k=$count_pupil; $k<=12; $k++){
+						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil" date="'.$row_d['date'].'"></td><td></td></tr>';
+					}
 				}
-			
 			}
 		echo '</thead></table>';
 		
