@@ -613,7 +613,7 @@ if ($_GET['comment'] == 'comment') {
     $comment = $_POST['comment'];
     $res_check = db_connect("SELECT * FROM comments WHERE pupil_id='$pupil_id' AND from_date='$from_date' AND to_date='$to_date'");
 	if(mysqli_num_rows($res_check)>0){
-		$res_update = db_connect("UPDATE comments SET comment='$comment' WHERE pupil_id='".$pupil_id."'");
+		$res_update = db_connect("UPDATE comments SET comment='$comment' WHERE pupil_id='".$pupil_id."' AND from_date='$from_date' AND to_date='$to_date'");
 	}else{
 		$res_insert = db_connect("INSERT INTO comments (pupil_id, from_date, to_date, comment) 
 											VALUES ('$pupil_id', '$from_date', '$to_date', '$comment')");

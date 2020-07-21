@@ -180,7 +180,8 @@ echo '</pre>';*/
 		<tr class="legend">
         	<th style="width:25px;">п</th>
             <th style="width:200px;">ФИО</th>
-            <th>Ведомость</th>
+            <th>Расчетка</th>
+			<th style="width:50px;">Напр-ий</th>
             <th style="width:25px;">Уроков</th>
             <th style="width:100px">Сумма по графику</th>
             <th style="width:100px;">Оплачено</th>
@@ -205,6 +206,20 @@ echo '</pre>';*/
 	                            AND (comments.from_date>='".$from_date."' 
 	                            AND comments.to_date<='".$to_date."')");
 		$row_comment = mysqli_fetch_assoc($res_comment);
+		
+		$subjects = mysqli_num_rows(db_connect("SELECT DISTINCT graph.programm FROM schedule
+												   INNER JOIN graph ON (schedule.id_branch=graph.branch 
+                     													AND schedule.id_day=graph.day 
+                     													AND schedule.id_shift=graph.shift)
+												   WHERE pupil_id='".$finish_arr_pupil[$i]['pupil_id']."' 
+												   						AND to_date='2031-04-04'
+																		AND code_change='1'"));
+		if($subjects >= 2){
+			$color = '#6bafff';
+		}else{
+			$color = '#BBDAFF';
+		}
+		
 		if($res_pupil!='' and mysqli_num_rows($res_pupil)>0){
 			//Есть данные по оплатам или возвратам
 
@@ -219,17 +234,18 @@ echo '</pre>';*/
 	                                  WHERE clear_cashback.pupil_id='".$finish_arr_pupil[$i]['pupil_id']."' 
 	                                  AND (clear_cashback.from_date>='".$from_date."' 
 	                                  AND clear_cashback.to_date<='".$to_date."') 
-	");
+									");
 			if(mysqli_num_rows($res_c_sum)>0){
 				$row_cc = mysqli_fetch_assoc($res_c_sum);
 				$sum_clear_cashback = $row_cc['sum_cashback'];
 				} else $sum_clear_cashback=0;
-				
+			
 			echo '<tr class="legend_all">
 				<td>'.($i+1).'</td>
 				<td class="left_align">
 				<a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a></td>
 				<td><button class="ved" pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" month="'.$k.'" FIO="'.$finish_arr_pupil[$i]['FIO'].'">=></button></td>
+				<td style="background-color:'.$color.';">'.$subjects.'</td>
 				<td>'.$finish_arr_pupil[$i]['sum'].'</td>';
 				if($row_pupil['pay']!=NULL){
 					echo '<td style="'.$style.'">'.$sum_on_pay.'</td></td><td class="yes_payment" 
@@ -306,6 +322,7 @@ echo '</pre>';*/
 				<td>'.($i+1).'</td>
 				<td class="left_align"><a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a></td>
 				<td><button class="ved" pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" month="'.$k.'" FIO="'.$finish_arr_pupil[$i]['FIO'].'">=></button></td>
+				<td style="background-color:'.$color.';">'.$subjects.'</td>
 				<td>'.$finish_arr_pupil[$i]['sum'].'</td>
 				<td>'.$sum_on_pay.'</td>
 				<td class="no_payment" 
@@ -354,11 +371,11 @@ echo '</pre>';*/
 		$row_sum = mysqli_fetch_assoc($res_sum);
 		//$row_clear = mysqli_fetch_assoc($res_clear);
 			if ($_COOKIE['id_teacher']=="999"){
-				echo '<tr class="strong"><td colspan="4">Итого:</td><td>'.$glob_sum.'</td><td>'.$row_sum['SUM(pay)'].'</td>
+				echo '<tr class="strong"><td colspan="5">Итого:</td><td>'.$glob_sum.'</td><td>'.$row_sum['SUM(pay)'].'</td>
 					<td>'.($row_sum['SUM(pay)']-$row_sum['SUM(discount)']).'</td><td>'.$row_sum['SUM(extra)'].'</td>
 					<td></td><td></td><td></td></tr>';
 			}else{
-				echo '<tr class="strong"><td colspan="4">Итого:</td><td></td><td></td>
+				echo '<tr class="strong"><td colspan="5">Итого:</td><td></td><td></td>
 					<td></td><td></td>
 					<td></td><td></td><td></td></tr>';
 			}

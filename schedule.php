@@ -137,6 +137,7 @@ if($_COOKIE['user_group']==1){ ?>
 ?>
 <div id="tabs-3">
     <div id="del_programm">
+		<div style="color: darkmagenta; font-size: 33px;">Внимание! Это действие необратимо!</div>
         <form id="del_prog">
             <input type="hidden" name="del_prog" value="del_prog">
             <div id="jq_data_del_prog"></div>
