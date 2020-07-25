@@ -312,7 +312,8 @@ if($_COOKIE['user_group']==1){ ?>
             });
             $('.id_programm_prog').css('background-color', 'Salmon');
                 $('#id_programm_prog').change(function () {
-                    if($(this).val()>0){$(this).css('background-color', 'LimeGreen');
+                    if($(this).val()>0){
+						$(this).css('background-color', 'LimeGreen');
                         $('#id_teacher_prog, #send_form').remove();
                         $('#id_programm_prog').after('<label for="shift">Учитель:</label><select name="id_teacher" id="id_teacher_prog" class="id_teacher_prog ui-button ui-corner-all ui-widget"><option>Выберите учителя</option> ')
                         $.getJSON('scripts/get_data.php?p=get_teacher', function(json){
@@ -324,14 +325,28 @@ if($_COOKIE['user_group']==1){ ?>
                             $('#id_teacher_prog').change(function () {
                                 if($(this).val()>0){
                                 $(this).css('background-color', 'LimeGreen');
-                                $('#send_form').remove();
-                                $('#id_teacher_prog').after('<input type="submit" name="send_form" value="Добавить" id="send_form" class="ui-button ui-corner-all ui-widget">');
-								$('#send_form').click(function (e) {
-    								e.preventDefault();
-    								var data_programm =$('#add_programm').serializeArray();
-    								$.post('scripts/add_data.php', data_programm, function(json){},"json");
-									location.reload();
+								$('#send_form').remove();
+								$('#id_teacher_prog').after('<br><label for="test_less">Пробное занятие:</label><input type="checkbox" name="test" id="test_less"><br><br><input type="submit" name="send_form" value="Добавить" id="send_form" class="ui-button ui-corner-all ui-widget">');
+								$('#test_less').on('change', function(){
+								if($('#test_less').prop('checked')){
+									$('#test_less').after('<label for="date">Дата:</label><input type="date" name="date" id="date">');
+									$('#date').required = true;
+										$('#send_form').click(function (e) {
+    										e.preventDefault();
+    										var data_programm =$('#add_programm').serializeArray();
+    										$.post('scripts/add_data.php', data_programm, function(json){},"json");
+											//location.reload();
+										})
+									}else{
+										$('#send_form').click(function (e) {
+    										e.preventDefault();
+    										var data_programm =$('#add_programm').serializeArray();
+    										$.post('scripts/add_data.php', data_programm, function(json){},"json");
+											//location.reload();
+											})
+										}
 								})
+								
                                 }else{
                                     $(this).css('background-color', 'Salmon');
                                     $('#send_form').remove();
@@ -350,7 +365,7 @@ if($_COOKIE['user_group']==1){ ?>
             	autoOpen: false,
             	modal: true,
             	width: 500,
-				height: 220,
+				height: 270,
             	close: function () {
                		location.reload();
             	}

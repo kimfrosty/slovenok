@@ -255,7 +255,8 @@ table td {
 #data_holiday label,
 #payment label,
 #form_add_lesson label,
-#form_data_jq label {
+#form_data_jq label,
+#add_programm label {
 	font-family: OpenSans-menu;
 	font-size: 18px;
 	display: inline-block;
@@ -326,7 +327,8 @@ table td {
 #tab-1 input[type="checkbox"],
 #tab-2 input[type="checkbox"],
 #add_teacher input[type="checkbox"],
-#edit_teacher input[type="checkbox"] {
+#edit_teacher input[type="checkbox"],
+#test_less input[type="checkbox"] {
 	width: 5%;
 }
 #period  button {
