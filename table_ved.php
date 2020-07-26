@@ -214,10 +214,13 @@ echo '</pre>';*/
 												   WHERE pupil_id='".$finish_arr_pupil[$i]['pupil_id']."' 
 												   						AND to_date='2031-04-04'
 																		AND code_change='1'"));
-		if($subjects >= 2){
-			$color = '#6bafff';
-		}else{
-			$color = '#BBDAFF';
+		switch($subjects) {
+			case '1': $color = '#BBDAFF';
+			break;
+			case '2': $color = '#6bafff';
+			break;
+			case ($subjects>=3): $color = '#ff61ea';
+			break;
 		}
 		
 		if($res_pupil!='' and mysqli_num_rows($res_pupil)>0){

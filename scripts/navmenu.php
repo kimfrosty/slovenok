@@ -8,6 +8,7 @@ if($_COOKIE['user_group']==1){
 		<li><a href="/table_ved.php" >Ведомость</a></li>
 		<li><a href="#">Статистика</a>
         	<ul>
+				<li><a href="/test_lessons.php">Пробные уроки</a></li>
             	<li><a href="/attendance.php">Посещаемость</a></li>
             	<li><a href="/holidays.php">Каникулы</a></li>
             	<li><a href="/payments.php">Оплата Педагогам</a></li>

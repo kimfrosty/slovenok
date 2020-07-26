@@ -413,6 +413,10 @@ if ($_GET['cancel_payment'] == 'cancel_payment') {
 	$key = 0;
     $res = db_connect("UPDATE payments SET key_p = '$key' WHERE id='{$_POST['id_payment']}'");
 }
+//Удаление пробных уроков
+if ($_GET['del_test'] == 'del_test') {
+    $res = db_connect("DELETE FROM test_lessons WHERE id='" . $_POST['item_id'] . "'");
+}
 //Удаление больничных
 if ($_GET['del_sick'] == 'del_sick') {
     $res = db_connect("DELETE FROM sicklist WHERE id='" . $_POST['item_id'] . "'");
