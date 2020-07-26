@@ -591,7 +591,7 @@ if ($_POST['add_data_form'] == 'add_data_form') {
     $programm = $_POST['id_programm_prog'];
     //$res_tarif = db_connect("SELECT tarif_teacher FROM programms WHERE id='{$programm}'");
     //$row_tarif = mysqli_fetch_assoc($res_tarif);
-	if($_POST['test']){
+	if($_POST['test']=='on'){
 	db_connect("INSERT INTO test_lessons (date, id_branch, id_day, id_shift, id_teacher, programm) 
               VALUES ('{$_POST['date']}', '{$_POST['branch']}', '{$_POST['day']}', '{$_POST['shift']}', '{$_POST['id_teacher']}', '{$programm}')");
 	}else{
