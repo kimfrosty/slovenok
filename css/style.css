@@ -516,6 +516,9 @@ td .present {
 .warning {
 	background-color: #FF6969;
 }
+.succes {
+	background-color: #48D7A4;
+}
 #branch {
 	background-color: #FFFE96;	
 }

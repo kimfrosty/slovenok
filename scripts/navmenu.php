@@ -13,6 +13,7 @@ if($_COOKIE['user_group']==1){
             	<li><a href="/holidays.php">Каникулы</a></li>
             	<li><a href="/payments.php">Оплата Педагогам</a></li>
                 <li><a href="/sicklist.php">Больничные</a></li>
+                <li><a href="/tickets.php">Электронные талоны</a></li>
             </ul>
         </li>
         <li><a href="/events.php" >Журнал событий</a></li>

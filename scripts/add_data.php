@@ -630,7 +630,19 @@ if ($_GET['comment'] == 'comment') {
 }
 
 
+//Добавление талона ученику
+if ($_GET['add_tickets'] == 'add_tickets') {
+	$tickets = $_POST['tickets'] + 1;
+	$item_id = $_POST['item_id'];
+	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$item_id'");
+}
 
+//Удаление талона у ученика
+if ($_GET['del_tickets'] == 'del_tickets') {
+	$tickets = $_POST['tickets'] - 1;
+	$item_id = $_POST['item_id'];
+	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$item_id'");
+}
 
 
 
