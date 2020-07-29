@@ -450,7 +450,7 @@ echo '</pre>';*/
 
 
 /*echo '<pre>';
-print_r(getDataAllBranchVED('2019-02-05', '10'));
+print_r(getDataPupil('20120-07-29', '4'));
 echo '</pre>';*/
 //echo  getLastTax('3', '22');
 

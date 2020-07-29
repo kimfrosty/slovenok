@@ -181,7 +181,7 @@ for($i=0; $i<count($week_arr); $i++){
 				        echo '<td class="cancel" cookie_teacher = "'.$_COOKIE['id_teacher'].'" id="'.$arr_pupil[$j]['id'].'" id_branch="'.$arr_pupil[$j]['id_branch'].'" id_teacher="'.$arr_pupil[$j]['id_teacher'].'" pupil_id="'.$arr_pupil[$j]['pupil_id'].'" id_day="'.$row_d['weekday'].'" id_shift="'.$row_s['id'].'" date="'.$row_d['date'].'">-</td></tr>';}
 						else echo '<td class="present"  id_branch="'.$arr_pupil[$j]['id_branch'].'" id_teacher="'.$arr_pupil[$j]['id_teacher'].'" pupil_id="'.$arr_pupil[$j]['pupil_id'].'" id_day="'.$row_d['weekday'].'" id_shift="'.$row_s['id'].'" date="'.$row_d['date'].'">+</td></tr>';
 				$count_pupil++;
-					
+				$id_teacher = $arr_pupil[$j]['id_teacher'];
 			
 			}
 			$test_lesson = CheckTestLesson($week_arr[$i],$_SESSION['id_branch'],$week_count,$row_s['id']);
@@ -194,7 +194,13 @@ for($i=0; $i<count($week_arr); $i++){
 					}
 				}else{
 					if($count_pupil>1){
-					echo '<tr class="legend_graf"><td>'.$count_pupil.'</td><td></td><td class="pupil_ticket">т</td></tr>';
+					echo '<tr class="legend_graf"><td>'.$count_pupil.'</td><td></td>
+							<td class="pupil_ticket" 
+							date="'.$row_d['date'].'" 
+							branch="'.$_SESSION['id_branch'].'" 
+							day="'.($week_count).'" 
+							shift="'.$row_s['id'].'" 
+							teacher="'.$id_teacher.'">т</td></tr>';
 					for($k=$count_pupil+1; $k<=12; $k++){
 						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil" date="'.$row_d['date'].'"></td><td></td></tr>';
 					}
@@ -617,10 +623,12 @@ if($_COOKIE['user_group']==1){
          
          </form>
     </div>
-
-	<div id="pupil_ticket" title="Ученики с талонами">
+</div>
+<?php } ?>
+<div id="pupil_ticket" title="Ученики с талонами">
 		<form method="post" id="pupil_select_form"> 
-		<select id="pupil_select">
+		<label for="pupil_select">Выберите:</label>
+        <select id="pupil_select">
 			<?php $res_pupil_tickets = db_connect("SELECT * FROM pupil WHERE tickets>0");
 					while($row_pt = mysqli_fetch_assoc($res_pupil_tickets)){
 						echo '<option value="'.$row_pt['FIO'].'">'.$row_pt['FIO'].'</option>';
@@ -629,8 +637,6 @@ if($_COOKIE['user_group']==1){
 		</select>
 		</form>
 	</div>
-</div>
-<?php } ?>
 </body>
 <script>
 $(document).ready(function(e) {
@@ -779,7 +785,7 @@ $(document).ready(function(e) {
 				button:"ui-icon-circle-triangle-s"
 				}
 			});
-		$('#edit_id_teacher,#edit_id_teacher_group_change,#id_teacher_edit,#edit_tax_pupil,#edit_school_prog,#edit_from_date,#edit_id_branch').selectmenu({
+		$('#edit_id_teacher,#edit_id_teacher_group_change,#id_teacher_edit,#edit_tax_pupil,#edit_school_prog,#edit_from_date,#edit_id_branch,#pupil_select').selectmenu({
 			width:200,
 			icons:{
 				button:"ui-icon-circle-triangle-s"
@@ -1133,11 +1139,14 @@ $(document).ready(function(e) {
    $('#pupil_ticket').dialog({
 		autoOpen: false,
 		modal:true,
+		width: 450,
 	    buttons:{
 			"Добавить":function(){
-				let data = $('#pupil_select_form').serializeArray();
+				$('#pupil_select_form:hidden').html('');
+				$('#pupil_select_form').append('<input type="hidden" name="FIO" value="'+$('#pupil_select').val()+'">');
+				var data = $('#pupil_select_form').serializeArray();
 				$.post('scripts/add_data.php?pupil_ticket=pupil_ticket', data, function(json){},"json");
-				//location.reload();
+				location.reload();
 			}
 		}
 	   
@@ -1146,6 +1155,12 @@ $(document).ready(function(e) {
 	$('.pupil_ticket').click(function(e){
 		e.preventDefault();
 		$('#pupil_ticket').dialog('open');
+		$('#pupil_select_form:hidden').html('');
+		$('#pupil_select_form').append('<input type="hidden" name="teacher" value="'+$(this).attr('teacher')+'">');
+		$('#pupil_select_form').append('<input type="hidden" name="day" value="'+$(this).attr('day')+'">');
+		$('#pupil_select_form').append('<input type="hidden" name="shift" value="'+$(this).attr('shift')+'">');
+		$('#pupil_select_form').append('<input type="hidden" name="branch" value="'+$(this).attr('branch')+'">');
+		$('#pupil_select_form').append('<input type="hidden" name="date" value="'+$(this).attr('date')+'">');
 	})
 	
 });

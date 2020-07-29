@@ -657,8 +657,23 @@ if ($_GET['sick_tickets'] == 'sick_tickets') {
 	db_connect("UPDATE pupil SET tickets='$tickets' WHERE FIO='$FIO'");
 }
 
-
-
+//Использование талона на занятии
+if ($_GET['pupil_ticket'] == 'pupil_ticket') {
+	$branch = $_POST['branch'];
+	$day = $_POST['day'];
+	$shift = $_POST['shift'];
+	$date = $_POST['date'];
+	$teacher = $_POST['teacher'];
+	$FIO = $_POST['FIO'];
+	$res_tickets = db_connect("SELECT * FROM pupil WHERE FIO='$FIO'");
+	$row_t = mysqli_fetch_assoc($res_tickets);
+	$tickets = $row_t['tickets'] - 1;
+	$pupil_id = $row_t['id'];
+	$loger = $_COOKIE['name'];
+	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$pupil_id'");
+	db_connect("INSERT INTO schedule (date, pupil_id, from_date, to_date, id_day, id_shift, id_branch, id_teacher, code_change, loger) 
+							  VALUES (NOW(), '$pupil_id', '$date', '$date', '$day', '$shift', '$branch', '$teacher', '7', '$loger')");
+}
 
 
 

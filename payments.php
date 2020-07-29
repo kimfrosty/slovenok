@@ -220,6 +220,13 @@ if($p=='next'){
 		$check_holiday = db_connect("SELECT * FROM holiday WHERE from_date<='".$row_date['date']."' AND to_date>='".$row_date['date']."'");
 		if(mysqli_num_rows($check_holiday)>0) continue;
 		/*========================================================*/
+		
+		$test_lesson = CheckTestLessonAllBranch($row_date['date'], $row_t['id']);
+		while ($row_tl = mysqli_fetch_assoc($test_lesson)){
+			$oplata+=$row_tl['tarif_teacher'];
+			$count_hour++;
+		}
+		
 		$res_shifts = db_connect("SELECT * FROM shifts");
 		while($row_s = mysqli_fetch_assoc($res_shifts)){
 		$count_pupil = 0;	
@@ -385,7 +392,7 @@ $(document).ready(function() {
 	$('#pays input, #pays button, .flex-center button').button();
 	$('#temp_payments').click(function(e) {
         e.preventDefault();
-		let data_payment = $('#form_pay').serializeArray();
+		var data_payment = $('#form_pay').serializeArray();
 				$.post('scripts/get_data.php?temp_payment=temp_payment', data_payment, function(json){
 					if(json.success==="success"){
 						$('#text_payments').html('');
@@ -402,12 +409,12 @@ $(document).ready(function() {
 		width: 555,
 		buttons:{
 			"Добавить":function(){
-				let data_payment = $('#form_pay').serializeArray();
+				var data_payment = $('#form_pay').serializeArray();
 				$.post('scripts/get_data.php?temp_payment=temp_payment', data_payment, function(json){
 					if(json.success==="success"){
 						$('#hidden_cash').attr('value', json.final_cash);
 						$('#count_pupil').attr('value', json.count_pupil_hour);
-					let data = $('#form_pay').serializeArray();
+					var data = $('#form_pay').serializeArray();
 				$.post('payments.php', data, function(json){
 					if(json.success==="success"){
 						location.reload();
@@ -452,7 +459,7 @@ $(document).ready(function() {
 			//close:function(){location.reload()},
 			buttons:{
 			"Удалить" : function(){
-				let data = $('#del_payment_form').serializeArray();
+				var data = $('#del_payment_form').serializeArray();
 				$.post('scripts/add_data.php?del_payment=del_payment', data, function(){}, "json");
 				location.reload();
 				}
@@ -488,7 +495,7 @@ $(document).ready(function() {
 			//close:function(){location.reload()},
 			buttons:{
 			"Добавить отметку" : function(){
-				let data = $('#add_payment_form').serializeArray();
+				var data = $('#add_payment_form').serializeArray();
 				$.post('scripts/add_data.php?add_payment=add_payment', data, function(){}, "json");
 				location.reload();
 				}
@@ -502,7 +509,7 @@ $(document).ready(function() {
 			//close:function(){location.reload()},
 			buttons:{
 			"Убрать отметку" : function(){
-				let data = $('#cancel_payment_form').serializeArray();
+				var data = $('#cancel_payment_form').serializeArray();
 				$.post('scripts/add_data.php?cancel_payment=cancel_payment', data, function(){}, "json");
 				location.reload();
 				}

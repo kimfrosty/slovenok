@@ -89,6 +89,13 @@ LEFT JOIN tax_change_teachers ON (teachers.id=tax_change_teachers.teacher_id AND
 		$check_holiday = db_connect("SELECT * FROM holiday WHERE from_date<='".$row_date['date']."' AND to_date>='".$row_date['date']."'");
 		if(mysqli_num_rows($check_holiday)>0) continue;
 		/*========================================================*/
+		
+		$test_lesson = CheckTestLessonAllBranch($row_date['date'], $row_t['id']);
+		while ($row_tl = mysqli_fetch_assoc($test_lesson)){
+			$oplata+=$row_tl['tarif_teacher'];
+			$count_hour++;
+		}
+		
 		$res_shifts = db_connect("SELECT * FROM shifts");
 		while($row_s = mysqli_fetch_assoc($res_shifts)){
 		$count_pupil = 0;

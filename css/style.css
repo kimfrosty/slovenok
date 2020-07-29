@@ -224,7 +224,8 @@ table td {
 #form_data_jq input,
 #but_add_lesson,
 #form_add_lesson select,
-#check_programm select {
+#check_programm select,
+#pupil_ticket select {
 	display: inline-block;
 	width: 50%;
 	margin-top: 10px;
