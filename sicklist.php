@@ -54,7 +54,7 @@ include ("function.php");
 				<td><a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$row_s['pupil_id'].'">'.$row_s['FIO'].'</a></td>
 				<td>'.formateDate($date).'</td>
 				<td>'.formateDate($row_s['from_date']).' - '.formateDate($row_s['to_date']).'</td>
-				<td>'.$row_s['count_lesson'].'</td>
+				<td class="tickets" FIO="'.$row_s['FIO'].'" tickets="'.$row_s['count_lesson'].'">'.$row_s['count_lesson'].'</td>
 				<td>'.formateDate(date('Y-m-d', (strtotime('+60 days', strtotime($row_s['to_date']))))).'</td>';
 				/*<td>'.$row_s['sum_sick'].'</td>
 				<td>'.$row_s['month'].'</td>*/
@@ -92,13 +92,48 @@ $(document).ready(function() {
 			subMenusSubOffsetY: -8
 		});
 	});
+	$('#tickets').dialog({
+		autoOpen: false,
+		modal: true,
+		width: 460,
+		buttons:{
+			"Добавить":function(){
+				let data = $('#tickets_form').serializeArray();
+				$.post('scripts/add_data.php?sick_tickets=sick_tickets', data, function(){}, "json");
+				location.reload();
+			}
+		}
+		
+	});
+		
+	//Подсветка ячеек таблицы
+	$('.tickets').hover(function(){
+	$(this).css({'background-color' : '#DC7713',
+	'cursor':'pointer'});
+	}, function(){
+		$(this).css({'background-color' : '',
+		'cursor' : ''});
+		});
+	
+	$('.tickets').click(function(e){
+		e.preventDefault();
+		$('#tickets').dialog('open');
+		$('#tickets').html('');
+		let tmp_str='';
+			tmp_str+='<h4>Добавить '+$(this).attr('tickets')+' талона(ов) '+$(this).attr('FIO')+' ?</h4>';
+			tmp_str+='<form id="tickets_form">';
+			tmp_str+='<input type="hidden" name="FIO" value="'+$(this).attr('FIO')+'">';
+			tmp_str+='<input type="hidden" name="tickets" value="'+$(this).attr('tickets')+'">';
+			tmp_str+='</form>';
+			$('#tickets').append(tmp_str);
+	});
+	
 	$('#form_add_sick input, .flex-center button').button();
 	$('#add_sick').dialog({
-		//Автооткрытие. НЕ ЗАБЫТЬ
 		autoOpen: false,
-		modal:true,
-		title:"Больничный по справке",
-		close:function(){location.reload()},
+		modal: true,
+		title: "Больничный по справке",
+		//close: function(){location.reload()},
 		width: 460,
 		buttons:{
 			"Добавить":function(){
@@ -139,7 +174,6 @@ $(document).ready(function() {
 			open: function() {
       			$(this).parent().find('div.ui-dialog-titlebar').addClass('warning');
 			},
-			//width: 520,
 			close:function(){location.reload()},
 			buttons:{
 			"Удалить" : function(){
@@ -160,11 +194,12 @@ $(document).ready(function() {
 			tmp_str+='</form>';
 			$('#warning').append(tmp_str);
 		});
-		
+	
 });
 </script>
 <!--Окно подтверждения-->
-<div id="warning" title="Внимание...">
+<div id="warning" title="Внимание..."></div>
+<div id="tickets" title="Внимание..."></div>
 </div>
 </body>
 </html>

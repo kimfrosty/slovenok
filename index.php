@@ -193,8 +193,15 @@ for($i=0; $i<count($week_arr); $i++){
 						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil test_lesson" date="'.$row_d['date'].'"></td><td></td></tr>';
 					}
 				}else{
-					for($k=$count_pupil; $k<=12; $k++){
+					if($count_pupil>1){
+					echo '<tr class="legend_graf"><td>'.$count_pupil.'</td><td></td><td class="pupil_ticket">т</td></tr>';
+					for($k=$count_pupil+1; $k<=12; $k++){
 						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil" date="'.$row_d['date'].'"></td><td></td></tr>';
+					}
+					}else{
+						for($k=$count_pupil; $k<=12; $k++){
+						echo '<tr class="legend_graf empty"><td>'.$k.'</td><td class="pupil" date="'.$row_d['date'].'"></td><td></td></tr>';
+					}
 					}
 				}
 			}
@@ -610,6 +617,18 @@ if($_COOKIE['user_group']==1){
          
          </form>
     </div>
+
+	<div id="pupil_ticket" title="Ученики с талонами">
+		<form method="post" id="pupil_select_form"> 
+		<select id="pupil_select">
+			<?php $res_pupil_tickets = db_connect("SELECT * FROM pupil WHERE tickets>0");
+					while($row_pt = mysqli_fetch_assoc($res_pupil_tickets)){
+						echo '<option value="'.$row_pt['FIO'].'">'.$row_pt['FIO'].'</option>';
+					}
+			?>
+		</select>
+		</form>
+	</div>
 </div>
 <?php } ?>
 </body>
@@ -1098,10 +1117,10 @@ $(document).ready(function(e) {
 		$( "#form_edit_pupil input" ).checkboxradio();
 	    $( "#form_edit_pupil fieldset" ).controlgroup();
     	});
-//Автокомплит ученика
+		//Автокомплит ученика
 		$('#id_search, #id_search_one').autocomplete({
 		       source: 'scripts/get_data.php',
-			   select:showpupil
+			   select: showpupil
 			   });//Конец
 		
 					
@@ -1111,10 +1130,25 @@ $(document).ready(function(e) {
 			$('#add_data_pupil, #add_one_less').append('<input type="hidden" name="pupil_id" value="'+json.id+'">');
 			})
 		}
-   
+   $('#pupil_ticket').dialog({
+		autoOpen: false,
+		modal:true,
+	    buttons:{
+			"Добавить":function(){
+				let data = $('#pupil_select_form').serializeArray();
+				$.post('scripts/add_data.php?pupil_ticket=pupil_ticket', data, function(json){},"json");
+				//location.reload();
+			}
+		}
+	   
+	})
 		
+	$('.pupil_ticket').click(function(e){
+		e.preventDefault();
+		$('#pupil_ticket').dialog('open');
+	})
 	
-	});
+});
 
 </script>
 </html>

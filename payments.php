@@ -285,7 +285,7 @@ if($p=='next'){
 <?php }?>
 <div class="container">
 <?php 
-$res_data_payment = db_connect("SELECT payments.*, teachers.name_teacher FROM payments INNER JOIN teachers ON payments.id_teacher=teachers.id ORDER BY payments.date DESC");
+$res_data_payment = db_connect("SELECT payments.*, teachers.name_teacher FROM payments INNER JOIN teachers ON payments.id_teacher=teachers.id ORDER BY payments.date DESC LIMIT 50");
 echo '<table class="oplata"><thead>';
 //Добавить шапку
 $count_pays = 1;

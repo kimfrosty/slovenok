@@ -545,8 +545,14 @@ td .present {
 	background-color:#005E1F !important;
 	color:#FCFF9F;	
 }
+.pupil_ticket {
+	background-color:#242926 !important;
+	color:#EBF39C;
+}
 
+/***********************************/
 
+/***********************************/
 
 @media (min-width: 1100px) {
 		#main-nav {

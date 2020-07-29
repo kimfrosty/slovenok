@@ -104,6 +104,7 @@
 	overflow: auto;
 }
 .ui-autocomplete {
+	z-index: 1000000 !important;
 	position: absolute;
 	top: 0;
 	left: 0;

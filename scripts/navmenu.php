@@ -51,7 +51,7 @@ if($_COOKIE['user_group']==1){
         //Автокомплит ученика
         $('#all_search').autocomplete({
             source: 'scripts/get_data.php',
-            select:redirectPupil
+            select: redirectPupil
         });//Конец
 
 

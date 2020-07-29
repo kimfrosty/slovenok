@@ -644,7 +644,18 @@ if ($_GET['del_tickets'] == 'del_tickets') {
 	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$item_id'");
 }
 
-
+//Добавление ученика с талонами
+if ($_GET['add_pupil_tickets'] == 'add_pupil_tickets') {
+	$tickets = $_POST['num'];
+	$FIO = $_POST['FIO'];
+	db_connect("UPDATE pupil SET tickets='$tickets' WHERE FIO='$FIO'");
+}
+//Добавление талонов по больничному листу
+if ($_GET['sick_tickets'] == 'sick_tickets') {
+	$tickets = $_POST['tickets'];
+	$FIO = $_POST['FIO'];
+	db_connect("UPDATE pupil SET tickets='$tickets' WHERE FIO='$FIO'");
+}
 
 
 
