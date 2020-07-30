@@ -298,6 +298,11 @@ if($_COOKIE['user_group']==1){ ?>
      //   Добавление программы
         $('.no_programm').click(function (evt) {
             evt.preventDefault();
+			if($(this).attr('day') == 7){
+				$day = 0;
+				}else{
+					$day = $(this).attr('day');
+					}
             $('#dialog_add_programm').append('<form id="add_programm">');
             $('#add_programm').append('<input type="hidden" name="add_data_form" value="add_data_form">');
             $('#add_programm').append('<input type="hidden" name="branch" value="'+$(this).attr('branch')+'">');
@@ -342,7 +347,7 @@ if($_COOKIE['user_group']==1){ ?>
 									$("#datep").datepicker({
     									beforeShowDay: function(date) {
         								var day = date.getDay();
-        								return [(day == 5),""];
+        								return [(day == $day),""];
     									}
 										
 									});	
