@@ -193,7 +193,7 @@ table td {
 }
 .container-around {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	margin-top: 15px;
 }
 .pagin {
