@@ -643,7 +643,11 @@ if ($_GET['del_tickets'] == 'del_tickets') {
 	$item_id = $_POST['item_id'];
 	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$item_id'");
 }
-
+//Удаление всех талонов у ученика
+if ($_GET['del_item'] == 'del_item') {
+	$item_id = $_POST['item_id'];
+	db_connect("UPDATE pupil SET tickets='0' WHERE id='$item_id'");
+}
 //Добавление ученика с талонами
 if ($_GET['add_pupil_tickets'] == 'add_pupil_tickets') {
 	$tickets = $_POST['num'];
