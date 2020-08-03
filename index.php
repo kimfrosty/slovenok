@@ -93,6 +93,13 @@ echo '</pre>';*/
         <?php
 			$res_shift = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
 			while($row_shift = mysqli_fetch_assoc($res_shift)){
+				
+				//Проверка на пустые часы в графике
+				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_shift['id']."'");
+				$row_a_w=mysqli_fetch_assoc($res_all_week);
+				if(mysqli_num_rows($res_all_week)<1){continue;}
+				///
+				
 				echo '<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
@@ -136,7 +143,7 @@ array_push($temp_links, "<a href=".$_SERVER['PHP_SELF']."?page=0>Текущая<
 array_push($temp_links, "<a href=".$_SERVER['PHP_SELF']."?page=1>></a>");
 array_push($temp_links, "<a href=".$_SERVER['PHP_SELF']."?page=2>>></a>");
 array_push($temp_links, "<a href=".$_SERVER['PHP_SELF']."?page=3>>>></a>");
-$temp_arr_pupil = array();
+//$temp_arr_pupil = array();
 //
 for($i=0; $i<count($week_arr); $i++){
 	$res_date = db_connect("SELECT * FROM calendar WHERE date='".$week_arr[$i]."'");//получаем дату LIMIT ".$page*$numbers_msg.",".$numbers_msg
@@ -148,8 +155,12 @@ for($i=0; $i<count($week_arr); $i++){
 		$res_shifts = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
 		while($row_s = mysqli_fetch_assoc($res_shifts)){
 			
-			$temp_prev_date = new DateTime($row_d['date']);
-			$prev_from_date = date('Y-m-d', $temp_prev_date->getTimestamp()-86400);
+			//Проверка на пустые часы в графике
+			$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_s['id']."'");
+			$row_a_w=mysqli_fetch_assoc($res_all_week);
+			if(mysqli_num_rows($res_all_week)<1){continue;}
+			///
+			
 			$arr_pupil = getDataPupil($row_d['date'], $row_s['id']);
 			$count_pupil = 1;
 			
@@ -227,6 +238,13 @@ for($i=0; $i<count($week_arr); $i++){
         <?php
 			$res_shift = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
 			while($row_shift = mysqli_fetch_assoc($res_shift)){
+				
+				///Проверка на пустые часы в графике
+				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_shift['id']."'");
+				$row_a_w=mysqli_fetch_assoc($res_all_week);
+				if(mysqli_num_rows($res_all_week)<1){continue;}
+				///
+				
 				echo '<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
