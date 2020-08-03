@@ -191,6 +191,11 @@ table td {
 	justify-content: center;
 	margin-top: 15px;
 }
+.container-around {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 15px;
+}
 .pagin {
 	margin-top: 20px;
 	margin-bottom: 20px;
