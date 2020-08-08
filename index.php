@@ -56,6 +56,23 @@ echo '<div class="pagin">';
 				echo '<span class="pagination">'.$temp_links[$i].'</span>';
 				}			
 		echo '</div>';
+		
+//Временные метки
+$start_day = $mark_time-mktime(0,0,0,date('m',$mark_time), date('d', $mark_time), date('Y',$mark_time));
+$end_date = mktime(0,0,0,date('m',$mark_time), date('d', $mark_time), date('Y',$mark_time))-$mark_time;
+$now_weekday = (date('w', $mark_time)==0)? 7 :date('w', $mark_time);
+$sec_in_day = 24*60*60;
+$first_date_week = date('d.m.Y',($mark_time-$sec_in_day*($now_weekday-1)-$start_day));
+$last_date_week = date('d.m.Y',$mark_time+$sec_in_day*(7-$now_weekday)+$end_date);
+//Массив дат
+$week_arr = array();
+$k = (empty($_GET['page'])) ? 0 : $_GET['page'];
+$fd = $k*7;
+$ld = $fd+6;
+for($i=$fd; $i<=$ld; $i++){
+	array_push($week_arr, date('Y-m-d', ($mark_time-$sec_in_day*($now_weekday-1)-$start_day+$sec_in_day*$i)));
+	}
+
 /*echo '<pre>';		
 print_r(getDataPupil('2017-09-20')); //getDataPupil('2017-09-20')
 echo '</pre>';
@@ -92,13 +109,17 @@ echo '</pre>';*/
         </tr>
         <?php
 			$res_shift = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
-			while($row_shift = mysqli_fetch_assoc($res_shift)){
+			while($row_s = mysqli_fetch_assoc($res_shift)){
 				
-				//Проверка на пустые часы в графике
-				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_shift['id']."'");
-				$row_a_w=mysqli_fetch_assoc($res_all_week);
-				if(mysqli_num_rows($res_all_week)<1){continue;}
-				///
+				///Проверка на пустые часы в графике
+				$count = 0;
+				for($x=0; $x<count($week_arr); $x++){
+					$res_test_lesson = CheckTestLesson($week_arr[$x],$_SESSION['id_branch'],$x+1,$row_s['id']);
+					if(mysqli_num_rows($res_test_lesson)<1){$count++;}
+				}
+				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_s['id']."'");
+				if(mysqli_num_rows($res_all_week)<1 && $count == 7){continue;}
+				/////////////
 				
 				echo '<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
@@ -106,7 +127,7 @@ echo '</pre>';*/
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
-				<tr><td>'.$row_shift['shifts'].'</td></tr>
+				<tr><td>'.$row_s['shifts'].'</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
@@ -119,21 +140,7 @@ echo '</pre>';*/
 </div>
 <div  id="container" class="table">
 <?php 
-//Временные метки
-$start_day = $mark_time-mktime(0,0,0,date('m',$mark_time), date('d', $mark_time), date('Y',$mark_time));
-$end_date = mktime(0,0,0,date('m',$mark_time), date('d', $mark_time), date('Y',$mark_time))-$mark_time;
-$now_weekday = (date('w', $mark_time)==0)? 7 :date('w', $mark_time);
-$sec_in_day = 24*60*60;
-$first_date_week = date('d.m.Y',($mark_time-$sec_in_day*($now_weekday-1)-$start_day));
-$last_date_week = date('d.m.Y',$mark_time+$sec_in_day*(7-$now_weekday)+$end_date);
-//Массив дат
-$week_arr = array();
-$k = (empty($_GET['page'])) ? 0 : $_GET['page'];
-$fd = $k*7;
-$ld = $fd+6;
-for($i=$fd; $i<=$ld; $i++){
-	array_push($week_arr, date('Y-m-d', ($mark_time-$sec_in_day*($now_weekday-1)-$start_day+$sec_in_day*$i)));
-	}
+
 $num_links = 5;//Количество ссылок
 $temp_links = array();
 array_push($temp_links, "<a href=".$_SERVER['PHP_SELF']."?page=-3><<<</a>");
@@ -155,11 +162,15 @@ for($i=0; $i<count($week_arr); $i++){
 		$res_shifts = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
 		while($row_s = mysqli_fetch_assoc($res_shifts)){
 			
-			//Проверка на пустые часы в графике
+			///Проверка на пустые часы в графике
+			$count = 0;
+			for($x=0; $x<count($week_arr); $x++){
+				$res_test_lesson = CheckTestLesson($week_arr[$x],$_SESSION['id_branch'],$x+1,$row_s['id']);
+				if(mysqli_num_rows($res_test_lesson)<1){$count++;}
+			}
 			$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_s['id']."'");
-			$row_a_w=mysqli_fetch_assoc($res_all_week);
-			if(mysqli_num_rows($res_all_week)<1){continue;}
-			///
+			if(mysqli_num_rows($res_all_week)<1 && $count == 7){continue;}
+			/////////////
 			
 			$arr_pupil = getDataPupil($row_d['date'], $row_s['id']);
 			$count_pupil = 1;
@@ -237,13 +248,17 @@ for($i=0; $i<count($week_arr); $i++){
         </tr>
         <?php
 			$res_shift = db_connect("SELECT * FROM shifts WHERE shifts.id>0");
-			while($row_shift = mysqli_fetch_assoc($res_shift)){
+			while($row_s = mysqli_fetch_assoc($res_shift)){
 				
 				///Проверка на пустые часы в графике
-				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_shift['id']."'");
-				$row_a_w=mysqli_fetch_assoc($res_all_week);
-				if(mysqli_num_rows($res_all_week)<1){continue;}
-				///
+				$count = 0;
+				for($x=0; $x<count($week_arr); $x++){
+					$res_test_lesson = CheckTestLesson($week_arr[$x],$_SESSION['id_branch'],$x+1,$row_s['id']);
+					if(mysqli_num_rows($res_test_lesson)<1){$count++;}
+				}
+				$res_all_week = db_connect("SELECT * FROM schedule WHERE id_branch='".$_SESSION['id_branch']."' AND id_shift='".$row_s['id']."'");
+				if(mysqli_num_rows($res_all_week)<1 && $count == 7){continue;}
+				/////////////
 				
 				echo '<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
@@ -251,7 +266,7 @@ for($i=0; $i<count($week_arr); $i++){
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
-				<tr><td>'.$row_shift['shifts'].'</td></tr>
+				<tr><td>'.$row_s['shifts'].'</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>

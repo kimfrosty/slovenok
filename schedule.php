@@ -308,6 +308,7 @@ if($_COOKIE['user_group']==1){ ?>
             $('#add_programm').append('<input type="hidden" name="branch" value="'+$(this).attr('branch')+'">');
             $('#add_programm').append('<input type="hidden" name="day" value="'+$(this).attr('day')+'">');
             $('#add_programm').append('<input type="hidden" name="shift" value="'+$(this).attr('shift')+'">');
+			//$('#add_programm').append('<input type="hidden" name="date" value="'+$('#datep').val()+'">');
 
             $('#add_programm').append('<label for="shift">Программа:</label><select name="id_programm_prog" id="id_programm_prog" class="id_programm_prog ui-button ui-corner-all ui-widget"><option>Выберите Программу</option> ')
             $.getJSON('scripts/get_data.php?p=get_programm', function(json){
@@ -342,7 +343,7 @@ if($_COOKIE['user_group']==1){ ?>
 								
 								$('#test_less').on('change', function(){
 								if($('#test_less').prop('checked')){
-									$('#test_less').after('<br><br><label for="date">Дата:</label><input id="datep">');
+									$('#test_less').after('<br><br><label for="datep">Дата:</label><input id="datep">');
 									$.datepicker.setDefaults($.datepicker.regional["ru"]);
 									$("#datep").datepicker({
     									beforeShowDay: function(date) {
@@ -350,10 +351,13 @@ if($_COOKIE['user_group']==1){ ?>
         								return [(day == $day),""];
     									}
 										
-									});	
-									$('#date').required = true;
+									});
+									$('#datep').on('change', function(){
+										$('#add_programm').append('<input type="hidden" name="date" value="'+$(this).val()+'">');
+									});
+									$('#datep').required = true;
 										$('#send_form').click(function (e) {
-    										location.reload();
+    									location.reload();
 										})
 									}
 								})
