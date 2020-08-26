@@ -593,11 +593,10 @@ VALUES(NOW(),'$pupil_id', '$from_date', '$to_date', '$id_day', '$id_shift', '$id
 //Добавление программы в расписание
 if ($_POST['add_data_form'] == 'add_data_form') {
     $programm = $_POST['id_programm_prog'];
-    //$res_tarif = db_connect("SELECT tarif_teacher FROM programms WHERE id='{$programm}'");
-    //$row_tarif = mysqli_fetch_assoc($res_tarif);
+    $date = date('Y-m-d',strtotime($_POST['date']));
 	if($_POST['test']=='on'){
 	db_connect("INSERT INTO test_lessons (date, id_branch, id_day, id_shift, id_teacher, programm) 
-              VALUES ('{$_POST['date']}', '{$_POST['branch']}', '{$_POST['day']}', '{$_POST['shift']}', '{$_POST['id_teacher']}', '{$programm}')");
+              VALUES ('$date', '{$_POST['branch']}', '{$_POST['day']}', '{$_POST['shift']}', '{$_POST['id_teacher']}', '{$programm}')");
 	}else{
     db_connect("INSERT INTO graph (branch, day, shift, programm, teacher) 
               VALUES ('{$_POST['branch']}', '{$_POST['day']}', '{$_POST['shift']}', '{$programm}', '{$_POST['id_teacher']}')");
@@ -678,6 +677,10 @@ if ($_GET['pupil_ticket'] == 'pupil_ticket') {
 	db_connect("INSERT INTO schedule (date, pupil_id, from_date, to_date, id_day, id_shift, id_branch, id_teacher, code_change, loger) 
 							  VALUES (NOW(), '$pupil_id', '$date', '$date', '$day', '$shift', '$branch', '$teacher', '7', '$loger')");
 }
+
+
+
+
 
 
 
