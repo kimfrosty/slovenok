@@ -662,6 +662,7 @@ $(document).ready(function(e) {
 	$('.pupil-present').each(function() {
 	var attr = $(this).attr('id_teacher');
 	   switch (attr){
+			   
 			case '1':
 			$(this).addClass("color1");
 			break;
