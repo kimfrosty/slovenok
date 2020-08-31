@@ -14,15 +14,15 @@ header('Location: login.php');
 <link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="css/sm-core-css.css" rel="stylesheet" type="text/css">
 <link href="css/sm-blue.css" rel="stylesheet" type="text/css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">-->
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="scripts/jquery-ui.min.js"></script>
 <script src="scripts/jquery.smartmenus.min.js"></script>
 <script src="scripts/showtime.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.min.js"></script>-->
 </head>
 <body onload="if(window.showTime) showTime();">
 <div>
