@@ -726,6 +726,9 @@ $(document).ready(function(e) {
 			case '17':
 			$(this).addClass("color17");
 			break;
+			case '18':
+			$(this).addClass("color18");
+			break;
 		}
     });
 	////////////////////
