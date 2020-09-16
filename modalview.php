@@ -46,13 +46,15 @@ while ($row_a_b = mysqli_fetch_assoc($res_a_b)) {
 														INNER JOIN programms ON graph.programm=programms.id
 														WHERE branch='$branch' AND day='$day' AND shift='$shift'");
 			$row_sum = mysqli_fetch_assoc($res_sum);
-			$coeff = ($row_sum['tarif_teacher']/400);
+			$coeff = $row_sum['tarif_teacher']/400;
 			$test_lesson = CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher);
 			$check_empty = CheckEmptyLesson($branch, $date, $day, $shift);
+			$row_t_l = mysqli_fetch_assoc($test_lesson);
+			$coeff_test = $row_t_l['tarif_teacher']/400;
 			$row_all = mysqli_fetch_assoc($res_all);
 			
 			if (mysqli_num_rows($test_lesson)>0) {
-                    	echo '<td class="coeff" style="width: 20px; height: 10px; background-color: #00aaff"; color: white;>'.$coeff.'</td>'; $hours++;
+                    	echo '<td class="coeff" style="width: 20px; height: 10px; background-color: #00aaff"; color: white;>'.$coeff_test.'</td>'; $hours++;
                 	}elseif($row_all['code_change'] == 1 || $row_all['code_change'] == 3) {
 						if($check_empty == false){
                     		echo '<td class="coeff" style="width: 20px; height: 10px; background-color: green; color: white;">'.$coeff.'</td>'; $hours++;
