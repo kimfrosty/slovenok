@@ -562,6 +562,10 @@ td .present {
 	background-color:#242926 !important;
 	color:#EBF39C;
 }
+.coeff {
+	font-family: OpenSans-menu;
+	font-size: 0.6em;
+}
 /***********************************/
 
 /***********************************/

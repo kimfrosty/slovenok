@@ -42,15 +42,20 @@ while ($row_a_b = mysqli_fetch_assoc($res_a_b)) {
 										AND schedule.id_branch='$branch' 
 										AND (schedule.code_change='1' OR schedule.code_change='3' OR schedule.code_change='2' OR schedule.code_change='4') 
 										ORDER BY schedule.code_change DESC LIMIT 1");
+			$res_sum = db_connect("SELECT programms.tarif_teacher FROM `graph` 
+														INNER JOIN programms ON graph.programm=programms.id
+														WHERE branch='$branch' AND day='$day' AND shift='$shift'");
+			$row_sum = mysqli_fetch_assoc($res_sum);
+			$coeff = ($row_sum['tarif_teacher']/400);
 			$test_lesson = CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher);
 			$check_empty = CheckEmptyLesson($branch, $date, $day, $shift);
 			$row_all = mysqli_fetch_assoc($res_all);
 			
 			if (mysqli_num_rows($test_lesson)>0) {
-                    	echo '<td style="width: 20px; height: 10px; background-color: #00aaff"></td>'; $hours++;
+                    	echo '<td class="coeff" style="width: 20px; height: 10px; background-color: #00aaff"; color: white;>'.$coeff.'</td>'; $hours++;
                 	}elseif($row_all['code_change'] == 1 || $row_all['code_change'] == 3) {
 						if($check_empty == false){
-                    		echo '<td style="width: 20px; height: 10px; background-color: green"></td>'; $hours++;
+                    		echo '<td class="coeff" style="width: 20px; height: 10px; background-color: green; color: white;">'.$coeff.'</td>'; $hours++;
 						}else {echo '<td style="width: 20px; height: 10px;"></td>';}
                 	} elseif ($row_all['code_change'] == 4){
                 echo '<td style="width: 20px; height: 10px; background-color: red"></td>';
