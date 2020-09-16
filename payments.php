@@ -104,7 +104,7 @@ if($p=='next'){
     	<th style="width:25px;">п</th>
 		<th style="width:250px;">Педагог</th>
 		<th style="width:150px;">Учеников</th>
-        <th style="width:150px;">Отработано часов</th>
+        <th style="width:150px;">Уроков</th>
 		<th style="width:150px;">Гонорар</th>
         <th>Подробно</th>
 	</tr>
@@ -303,7 +303,7 @@ echo '<tr class="legend">
 		<th style="width:100px;">С числа:</th>
 		<th style="width:100px;">По число:</th>
 		<th style="width:100px;">Сумма</th>
-		<th style="width:100px;">Часов</th>
+		<th style="width:100px;">Уроков</th>
 		<th style="width:100px;">Отметка</th>';
 		if($_COOKIE['id_teacher']==999){
 			echo '<th style="width:50px;">Удалить</th>';

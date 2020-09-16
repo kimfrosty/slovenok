@@ -43,17 +43,20 @@ while ($row_a_b = mysqli_fetch_assoc($res_a_b)) {
 										AND (schedule.code_change='1' OR schedule.code_change='3' OR schedule.code_change='2' OR schedule.code_change='4') 
 										ORDER BY schedule.code_change DESC LIMIT 1");
 			$test_lesson = CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher);
+			$check_empty = CheckEmptyLesson($branch, $date, $day, $shift);
 			$row_all = mysqli_fetch_assoc($res_all);
+			
 			if (mysqli_num_rows($test_lesson)>0) {
-                    	echo '<td style="width: 20px; height: 10px; background-color: green"></td>'; $hours++;
+                    	echo '<td style="width: 20px; height: 10px; background-color: #00aaff"></td>'; $hours++;
                 	}elseif($row_all['code_change'] == 1 || $row_all['code_change'] == 3) {
-                    	echo '<td style="width: 20px; height: 10px; background-color: red"></td>'; $hours++;
+						if($check_empty == false){
+                    		echo '<td style="width: 20px; height: 10px; background-color: green"></td>'; $hours++;
+						}else {echo '<td style="width: 20px; height: 10px;"></td>';}
                 	} elseif ($row_all['code_change'] == 4){
-                echo '<td style="width: 20px; height: 10px; background-color: grey"></td>';
+                echo '<td style="width: 20px; height: 10px; background-color: red"></td>';
             }elseif($row_d['weekday']==6||$row_d['weekday']==7){echo '<td style="width: 20px; height: 10px; background-color: #FFE5E4;"></td>';} 
 			else {echo '<td style="width: 20px; height: 10px;"></td>';}
-                        	
-        }
+		}
         echo '</tr>';
     }
     $hours_all = $hours_all + $hours;

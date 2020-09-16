@@ -437,18 +437,32 @@ function CheckTestLessonTeacher($date, $branch, $day, $shift, $teacher){
 	$resault = $res_test_lesson;
 	return $resault;
 	}
-
+function CheckEmptyLesson($branch, $date, $day, $shift){
+	$res_code1 = db_connect("SELECT * FROM schedule 
+										WHERE from_date<='$date' 
+										AND to_date>='$date' 
+										AND id_shift='$shift' 
+										AND id_day='$day'										
+										AND id_branch='$branch' 
+										AND code_change='1'");
+	$res_code5_6 = db_connect("SELECT * FROM schedule 
+										WHERE from_date<='$date' 
+										AND to_date>='$date' 
+										AND id_shift='$shift' 
+										AND id_day='$day'										
+										AND id_branch='$branch' 
+										AND (code_change='5' OR code_change='6')");
+	$code1 = mysqli_num_rows($res_code1);
+	$code5_6 = mysqli_num_rows($res_code5_6);
+	if($code1 == $code5_6){
+		$resault = true;
+	}
+	return $resault;
+}
 //Функция возврата часов учителей в месяц
 /*echo '<pre>';
 print_r(PupilDataNow(131, 1, 'to_date', '2019-06-24'));
 echo '</pre>';*/
-
-  
-
-
-
-
-
 /*echo '<pre>';
 print_r(getDataPupil('20120-07-29', '4'));
 echo '</pre>';*/
