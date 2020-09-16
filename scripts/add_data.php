@@ -48,13 +48,15 @@ require("../function.php");
 //Добавление ученика
 if ($_POST['add_one_pupil'] == 'add_one_pupil') {
     $FIO = $_POST['FIO'];
+	$res_check = db_connect("SELECT FIO FROM pupil WHERE FIO='$FIO'");
+	if(mysqli_num_rows($res_check)<1){
     $res_add_pupil = mysqli_query($dbc, "INSERT INTO pupil (FIO) VALUES ('$FIO')");
     $insert_id = mysqli_insert_id($dbc);
     db_connect("INSERT INTO schedule (date, pupil_id, from_date, to_date, id_day, id_shift, id_branch, id_teacher,
                 code_change, loger) 
                 VALUES (NOW(), '$insert_id', '{$_POST['from_date']}', '2031-04-04', '{$_POST['old_day']}', 
                 '{$_POST['old_shift']}', '{$_POST['old_branch']}', '{$_POST['id_teacher']}', '1', '{$_COOKIE['name']}')");
-
+	}else{die('Такой ученик уже существует!');}
 }
 //УДаление программы
 if ($_POST['del_prog'] == 'del_prog') {
