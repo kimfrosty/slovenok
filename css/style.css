@@ -176,6 +176,10 @@ table td {
 .legend_graf>td.color18 {
 	background-color: #E8C254;
 }
+.legend_graf>td.color19 {
+	background-color: #8C634E;
+	color: #FFFFFF;
+}
 
 .left_align {
 	text-align: left;
