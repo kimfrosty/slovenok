@@ -675,12 +675,23 @@ if ($_GET['pupil_ticket'] == 'pupil_ticket') {
 	$tickets = $row_t['tickets'] - 1;
 	$pupil_id = $row_t['id'];
 	$loger = $_COOKIE['name'];
+	
+	$res = db_connect("SELECT * FROM schedule WHERE id_branch='$branch'
+												AND id_day='$day'
+												AND id_shift='$shift'
+												AND from_date='$date'
+												AND pupil_id='$pupil_id'
+												AND id_teacher='$teacher'
+												AND code_change='7'");
+	if (mysqli_num_rows($res)<1){
+	
 	db_connect("UPDATE pupil SET tickets='$tickets' WHERE id='$pupil_id'");
-	db_connect("INSERT INTO schedule (date, pupil_id, from_date, to_date, id_day, id_shift, id_branch, id_teacher, code_change, loger) 
-							  VALUES (NOW(), '$pupil_id', '$date', '$date', '$day', '$shift', '$branch', '$teacher', '7', '$loger')");
+	db_connect("INSERT INTO schedule (date, pupil_id, from_date, to_date, 
+							id_day, id_shift, id_branch, id_teacher, code_change, loger) 
+						VALUES (NOW(), '$pupil_id', '$date', '$date', '$day', '$shift', 
+							'$branch', '$teacher', '7', '$loger')");
+		}
 }
-
-
 
 
 
