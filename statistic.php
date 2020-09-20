@@ -100,7 +100,7 @@ while($row_t = mysqli_fetch_assoc($res_teachers)){
 	$arr['sum'] = $num_rows_teacher;
 	array_push($array_teachers, $arr);
 	}
-usort($array_prog, function($a, $b){
+usort($array_teachers, function($a, $b){
     return ($b['sum'] - $a['sum']);
 });
 for($i = 0; $i<=count($array_teachers); $i++){
