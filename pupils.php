@@ -65,6 +65,7 @@ $k--;
 <link href="css/sm-core-css.css" rel="stylesheet" type="text/css">
 <link href="css/sm-blue.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/toggle-switchy.css" rel="stylesheet">
 <script src="scripts/jquery-1.8.3.min.js"></script>
 <script src="scripts/jquery-ui.min.js"></script>
 <script src="scripts/jquery.smartmenus.min.js"></script>
@@ -165,6 +166,14 @@ $FIO = $array[0]['FIO'];//ФИО ученика
 <div class="flex-center">
 	<button class="month">Личная карточка: <span style="color:#4369FF;">
 	<? echo $row_FIO['FIO'].' (#'.$pupil_id.')'; ?></span></button>
+</div>
+<div class="flex-center">
+	<label class="toggle-switchy" for="switch" data-size="xl" data-style="rounded">
+		<input checked type="checkbox" id="switch">
+			<span class="toggle">
+			<span class="switch"></span>
+			</span>
+	</label>	
 </div>
 <div class="flex-center">
 <div class="month arrow">
