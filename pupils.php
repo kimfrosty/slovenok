@@ -169,7 +169,7 @@ $FIO = $array[0]['FIO'];//ФИО ученика
 </div>
 <div class="flex-center">
 	<label class="toggle-switchy" for="switch" data-size="xl" data-style="rounded">
-		<input checked type="checkbox" id="switch">
+		<input type="checkbox" id="switch">
 			<span class="toggle">
 			<span class="switch"></span>
 			</span>

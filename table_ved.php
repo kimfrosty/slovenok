@@ -175,7 +175,7 @@ echo '</pre>';*/
 </div>
 <div class="container">
 <div class="table">
-	<table class="oplata">
+	<table class="oplata" id="oplata">
     <thead>
 		<tr class="legend">
         	<th style="width:25px;">п</th>
@@ -246,7 +246,8 @@ echo '</pre>';*/
 			echo '<tr class="legend_all">
 				<td>'.($i+1).'</td>
 				<td class="left_align">
-				<a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a></td>
+				<a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a>
+				</td>
 				<td><button class="ved" pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" month="'.$k.'" FIO="'.$finish_arr_pupil[$i]['FIO'].'">=></button></td>
 				<td style="background-color:'.$color.';">'.$subjects.'</td>
 				<td>'.$finish_arr_pupil[$i]['sum'].'</td>';
@@ -323,7 +324,8 @@ echo '</pre>';*/
 				} else $sum_clear_cashback=0;
 				echo '<tr class="legend_all">
 				<td>'.($i+1).'</td>
-				<td class="left_align"><a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a></td>
+				<td class="left_align">
+				<a style="color:#0067F4; text-decoration:none;" href="pupils.php?pupil_id='.$finish_arr_pupil[$i]['pupil_id'].'">'.$finish_arr_pupil[$i]['FIO'].'</a></td>
 				<td><button class="ved" pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" month="'.$k.'" FIO="'.$finish_arr_pupil[$i]['FIO'].'">=></button></td>
 				<td style="background-color:'.$color.';">'.$subjects.'</td>
 				<td>'.$finish_arr_pupil[$i]['sum'].'</td>
@@ -394,6 +396,13 @@ echo '</pre>';*/
 			subMenusSubOffsetX: 1,
 			subMenusSubOffsetY: -8
 		});
+	$('.left_align').click(function(e) {
+		var $tmp = $("<input>");
+		$("body").append($tmp);
+		$tmp.val($(this).text()).select();
+		document.execCommand("copy");
+		$tmp.remove();
+	});
 	$('.flex-center button').button();
 	$('#payment').dialog({
 		autoOpen: false,
