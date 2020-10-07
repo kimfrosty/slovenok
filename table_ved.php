@@ -61,16 +61,8 @@ $k--;
 			
 			
 			$arr_pupil = getDataAllBranchVED($row_date['date'], $row_s['id']);
-			/*echo '<pre>';
-			print_r($arr_pupil).'<br>';
-			echo $row_date['date'];
-			echo '</pre>';*/
-			
-			//for($i=1; $i<=$id_shift; $i++){
 				for($j=0; $j<count($arr_pupil); $j++){
 					if(empty($arr_pupil[$j])) continue;
-                    //$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax']=0;
-					//if(array_key_exists($arr_pupil[$j]['pupil_id'], $temp_pupil_row)){
 					if($arr_pupil[$j]['code_change']==1){
 						if($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id']){
 							$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['attendance']+=1;
@@ -79,51 +71,9 @@ $k--;
 							$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['FIO'] = $arr_pupil[$j]['FIO'];
 							}
 						}
-					/*if($arr_pupil[$j]['code_change']==3&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['attendance']+=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-					if($arr_pupil[$j]['code_change']==6&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['empty']+=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-					if($arr_pupil[$j]['code_change']==5&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['seek']+=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['pupil_id'] = $arr_pupil[$j]['pupil_id'];
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['FIO'] = $arr_pupil[$j]['FIO'];
-						
-					}else {
-							if($arr_pupil[$j]['code_change']==1&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['attendance']=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-							if($arr_pupil[$j]['code_change']==3&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['attendance']=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-						
-							}
-							if($arr_pupil[$j]['code_change']==6&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['empty']=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-							if($arr_pupil[$j]['code_change']==5&&($arr_pupil[$j]['id_day']==$row_date['weekday']&&$arr_pupil[$j]['id_shift']==$row_s['id'])){
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['seek']=1;
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['tax'] += $arr_pupil[$j]['tarif'];
-							}
-						
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['pupil_id'] = $arr_pupil[$j]['pupil_id'];
-						$temp_pupil_row[$arr_pupil[$j]['pupil_id']]['FIO'] = $arr_pupil[$j]['FIO'];
-						
-							}*/
 					}
-				//}
 		}
 	}
-/*echo '<pre>';
-print_r(getDataAllBranch('2018-10-17','6'));
-echo '</pre>';*/
 
 	foreach($temp_pupil_row as $key=>$val){
 		$val['sum'] = $val['attendance']+$val['seek']+$val['empty'];
@@ -132,9 +82,6 @@ echo '</pre>';*/
 	usort($finish_arr_pupil, function($a, $b){
     	return $a['FIO'] > $b['FIO'];
 	});
-/*echo '<pre>';
-print_r($finish_arr_pupil);
-echo '</pre>';*/
 
 ?>
 <!doctype html>
@@ -185,8 +132,6 @@ echo '</pre>';*/
             <th style="width:25px;">Уроков</th>
             <th style="width:100px">Сумма по графику</th>
             <th style="width:100px;">Оплачено</th>
-            <!--<th style="width:100px;">Возврат по б/л</th>
-            <th style="width:100px;">Возврат</th>-->
             <th style="width:100px;">Сумма со скидкой</th>
             <th style="width:100px;">Сумма за доп</th>
             <th style="width:300px;">Комментарий</th>
@@ -232,7 +177,6 @@ echo '</pre>';*/
 			}else{
 			    $style = 'color:#000000;font-weight:normal;';
             }
-			//$sum_cashback=$finish_arr_pupil[$i]['seek']*$finish_arr_pupil[$i]['tax'];
 			$res_c_sum = db_connect("SELECT clear_cashback.* FROM clear_cashback
 	                                  WHERE clear_cashback.pupil_id='".$finish_arr_pupil[$i]['pupil_id']."' 
 	                                  AND (clear_cashback.from_date>='".$from_date."' 
@@ -285,25 +229,7 @@ echo '</pre>';*/
 						date="'.date('Y-m-d', $mark_time).'"
 						from_date="'.$from_date.'"
 						to_date="'.$to_date.'">'.($row_pupil['pay']-$row_pupil['discount']).'</td>';
-						}
-					/*if($sum_clear_cashback){
-					echo '<td class="yes_payment" 
-						pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" 
-						type_of_payment="sum_clear_cashback" 
-						FIO="'.$finish_arr_pupil[$i]['FIO'].'" 
-						date="'.date('Y-m-d', $mark_time).'"
-						from_date="'.$from_date.'"
-						to_date="'.$to_date.'">'.$sum_clear_cashback.'</td>';
-					} else {
-						echo '<td class="no_payment clear_cashback" 
-						pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" 
-						type_of_payment="sum_clear_cashback" 
-						FIO="'.$finish_arr_pupil[$i]['FIO'].'" 
-						date="'.date('Y-m-d', $mark_time).'"
-						from_date="'.$from_date.'"
-						to_date="'.$to_date.'">'.$sum_clear_cashback.'</td>';
-						}*/
-				
+						}				
 					echo '<td>'.$row_pupil['extra'].'</td>';
 					echo '<td pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" to_date="'.$to_date.'" class="comment">'.$row_comment['comment'].'</td>';
                     echo '<td class="yes_payment">'.formateDate($row_pupil['date']).'</td>';
@@ -345,24 +271,6 @@ echo '</pre>';*/
 						date="'.date('Y-m-d', $mark_time).'"
 						from_date="'.$from_date.'"
 						to_date="'.$to_date.'">0</td>';
-				/*if($sum_clear_cashback){
-					echo '<td class="yes_payment" 
-						pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" 
-						type_of_payment="sum_clear_cashback" 
-						FIO="'.$finish_arr_pupil[$i]['FIO'].'" 
-						date="'.date('Y-m-d', $mark_time).'"
-						from_date="'.$from_date.'"
-						to_date="'.$to_date.'">'.$sum_clear_cashback.'</td>';
-					} else {
-						echo '<td class="no_payment clear_cashback" 
-						pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" 
-						type_of_payment="sum_clear_cashback" 
-						FIO="'.$finish_arr_pupil[$i]['FIO'].'" 
-						date="'.date('Y-m-d', $mark_time).'"
-						from_date="'.$from_date.'"
-						to_date="'.$to_date.'">'.$sum_clear_cashback.'</td>';
-						}*/
-						
 				echo '<td>'.$row_pupil['extra'].'</td>';
 				echo '<td pupil_id="'.$finish_arr_pupil[$i]['pupil_id'].'" from_date="'.$from_date.'" to_date="'.$to_date.'" class="comment">'.$row_comment['comment'].'</td><td></td>';
 				echo '<td>'.$row_pupil['loger'].'</td>';
@@ -372,9 +280,7 @@ echo '</pre>';*/
 				
 		}
 		$res_sum = db_connect("SELECT SUM(pay), SUM(discount), SUM(extra) FROM payment WHERE from_date<='$from_date' AND to_date>='$to_date'");
-		//$res_clear = db_connect("SELECT SUM(sum_cashback) FROM clear_cashback WHERE from_date<='$from_date' AND to_date>='$to_date'");
 		$row_sum = mysqli_fetch_assoc($res_sum);
-		//$row_clear = mysqli_fetch_assoc($res_clear);
 			if ($_COOKIE['id_teacher']=="999"){
 				echo '<tr class="strong"><td colspan="5">Итого:</td><td>'.$glob_sum.'</td><td>'.$row_sum['SUM(pay)'].'</td>
 					<td>'.($row_sum['SUM(pay)']-$row_sum['SUM(discount)']).'</td><td>'.$row_sum['SUM(extra)'].'</td>
